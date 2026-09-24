@@ -154,3 +154,7 @@ O CI executa a suite a cada push.
 ## Licenca
 
 MIT
+
+## Autor
+
+Lucas Moura
