@@ -111,10 +111,13 @@ Para montar o fluxo no n8n, siga [`n8n/README.md`](n8n/README.md).
 
 ### Exemplo
 
-```http
-POST /classificar
-Content-Type: application/json
+Dois leads, duas triagens
 
+Mesma rota, mensagens diferentes — e o sistema decide sozinho:
+
+**Entrada A**
+
+```json
 {
   "nome": "Ana Souza",
   "email": "ana@empresa.com",
@@ -123,18 +126,40 @@ Content-Type: application/json
 }
 ```
 
-Resposta:
+**Entrada B**
 
 ```json
 {
-  "id": 1,
-  "nome": "Ana Souza",
-  "categoria": "suporte",
-  "urgencia": "alta",
-  "score": 100,
-  "recebido_em": "2026-09-20T09:12:00-03:00"
+  "nome": "Carlos Lima",
+  "email": "carlos@empresa.com",
+  "mensagem": "Gostaria de saber o valor dos planos",
+  "origem": "instagram"
 }
 ```
+
+**Resultado**
+
+| | Ana | Carlos |
+|---|---|---|
+| categoria | `suporte` | `comercial` |
+| urgencia | `alta` | `normal` |
+| score | `80` | `20` |
+| destino no n8n | alerta imediato | fila normal |
+
+A diferenca de 60 pontos nao e arbitraria. O score da Ana soma quatro
+criterios:
+
+| Criterio | Pontos |
+|---|---|
+| origem `indicacao` | 30 |
+| mensagem de 62 caracteres | 10 |
+| telefone na mensagem | 20 |
+| urgencia alta | 20 |
+| **total** | **80** |
+
+Carlos e um lead legitimo — 10 pela origem e 10 pelo tamanho da mensagem —
+mas pode esperar. E exatamente essa decisao que hoje alguem toma lendo
+e-mail a e-mail.
 
 ---
 
