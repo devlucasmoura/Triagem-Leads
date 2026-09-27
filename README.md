@@ -63,8 +63,7 @@ Tres decisoes independentes, todas em `core/classificacao.py`:
 Suporte tem prioridade sobre comercial: quem escreve "deu erro ao pagar, qual
 o valor?" tem um problema, nao uma duvida de preco.
 
-Sao funcoes puras — recebem texto, devolvem valor, sem banco e sem rede. Por
-isso os testes rodam em milissegundos e sem infraestrutura.
+Sao funcoes puras — recebem texto, devolvem valor, sem banco e sem rede.
 
 ---
 
@@ -109,9 +108,7 @@ Para montar o fluxo no n8n, siga [`n8n/README.md`](n8n/README.md).
 | `POST` | `/classificar` | Recebe o lead, classifica, grava e devolve o resultado |
 | `GET` | `/leads` | Lista os leads recebidos, ordenados por score |
 
-### Exemplo
-
-Dois leads, duas triagens
+### Dois leads, duas triagens
 
 Mesma rota, mensagens diferentes — e o sistema decide sozinho:
 
@@ -169,17 +166,19 @@ e-mail a e-mail.
 docker compose exec api pytest -v
 ```
 
-Cobrem as tres decisoes da classificacao, incluindo os casos de borda:
-mensagem com palavras das duas categorias, acentuacao, e o teto do score.
+11 testes em 0,17s — nenhum precisa de banco, rede ou Django, porque a
+classificacao e funcao pura. Cobrem as tres decisoes, incluindo os casos de
+borda: mensagem com palavras das duas categorias, acentuacao e o teto do
+score.
 
 O CI executa a suite a cada push.
 
 ---
 
+## Autor
+
+Lucas Moura — [github.com/devlucasmoura](https://github.com/devlucasmoura)
+
 ## Licenca
 
 MIT
-
-## Autor
-
-Lucas Moura
